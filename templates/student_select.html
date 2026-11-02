@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Course Selection | AEW Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: #0b0f19; color: white; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 50px;}
+        .bg-shapes { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; filter: blur(100px); }
+        .shape1 { position: absolute; border-radius: 50%; width: 400px; height: 400px; background: #6c5ce7; top: 10%; left: -10%; opacity: 0.4;}
+        .shape2 { position: absolute; border-radius: 50%; width: 500px; height: 500px; background: #00cec9; bottom: -10%; right: -5%; opacity: 0.3;}
+        .top-bar { width: 100%; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); box-sizing: border-box; border-bottom: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px);}
+        .card { background: rgba(255,255,255,0.03); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 40px; width: 500px; margin-top: 50px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        select { width: 100%; padding: 15px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; margin-bottom: 20px; font-size: 1em; cursor: pointer; outline: none;}
+        select:focus { border-color: #00cec9; }
+        .btn-submit { width: 100%; padding: 15px; background: linear-gradient(135deg, #6c5ce7, #00cec9); border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1.1em; margin-top: 10px;}
+        .btn-submit:hover { transform: scale(0.95); box-shadow: 0 10px 20px rgba(0,206,201,0.4); }
+        .success-msg { color: #00b894; background: rgba(0, 184, 148, 0.1); border: 1px solid rgba(0, 184, 148, 0.3); padding: 15px; border-radius: 12px; margin-bottom: 25px; animation: popIn 0.4s; line-height: 1.6;}
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes"><div class="shape1"></div><div class="shape2"></div></div>
+    
+    <div class="top-bar">
+        <div style="font-weight: bold; font-size: 1.2em;"><i class="fas fa-user-graduate" style="color:#00cec9;"></i> {{ student.name }} ({{ student.usn }})</div>
+        <a href="/logout" style="color: #ff7675; text-decoration: none; font-weight: bold;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <div class="card">
+        <h2 style="margin-top:0;">Course Enrollment</h2>
+        <p style="color: #a0aec0; margin-bottom: 25px;">Select your course and semester. Your subjects will be automatically assigned.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+                <div class="success-msg"><i class="fas fa-check-circle"></i> {{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <select name="course" required>
+                <option value="" disabled selected>-- Select Your Course --</option>
+                <option value="MCA">Master of Computer Applications (MCA)</option>
+                <option value="MBA">Master of Business Administration (MBA)</option>
+            </select>
+
+            <select name="semester" required>
+                <option value="" disabled selected>-- Select Semester --</option>
+                <option value="1">1st Semester</option>
+                <option value="3">3rd Semester</option>
+            </select>
+
+            <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Register Profile</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEW | Automated Exam Work</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        /* --- RESET & PREMIUM DARK THEME --- */
+        :root {
+            --bg-color: #0b0f19;
+            --primary: #6c5ce7;
+            --secondary: #00cec9;
+            --text-main: #ffffff;
+            --text-muted: #a0aec0;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        body {
+            margin: 0; font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color); color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* --- TACTILE CLICK EFFECTS --- */
+        a, button { transition: transform 0.1s ease, filter 0.3s ease; }
+        a:active, button:active { transform: scale(0.92) !important; }
+
+        /* --- FLOATING AMBIENT ORBS --- */
+        .ambient-orb {
+            position: absolute; border-radius: 50%; filter: blur(120px); z-index: -1;
+            animation: floatOrb 15s infinite alternate ease-in-out;
+        }
+        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--primary); opacity: 0.4; }
+        .orb-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: var(--secondary); opacity: 0.3; animation-delay: -5s; }
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 100px) scale(1.2); }
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 8%; background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            position: fixed; top: 0; width: 100%; box-sizing: border-box; z-index: 1000;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .logo { font-size: 1.8em; font-weight: 800; letter-spacing: 1px; display: flex; align-items: center; gap: 10px;}
+        .logo span { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; color: transparent; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 1.1em; transition: 0.3s; }
+        .nav-links a:hover { color: var(--text-main); text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white !important; padding: 10px 25px; border-radius: 30px;
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+        }
+        .btn-login:hover { filter: brightness(1.2); transform: translateY(-3px); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 0 10%; position: relative;
+        }
+        .hero h1 {
+            font-size: 4.5em; font-weight: 800; margin-bottom: 20px; line-height: 1.1;
+            background: linear-gradient(to right, #ffffff, #a0aec0);
+            -webkit-background-clip: text; color: transparent;
+        }
+        .hero p {
+            font-size: 1.2em; color: var(--text-muted); max-width: 800px;
+            margin-bottom: 40px; line-height: 1.6;
+        }
+        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        
+        .btn-outline {
+            border: 2px solid var(--glass-border); background: var(--glass-bg);
+            color: white; padding: 15px 35px; border-radius: 30px; text-decoration: none;
+            font-size: 1.1em; font-weight: 600; backdrop-filter: blur(10px); transition: 0.3s;
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: white !important; }
+
+        /* --- ABOUT CARD --- */
+        .section-about { padding: 100px 10%; }
+        .glass-card {
+            background: var(--glass-bg); backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border); border-radius: 24px;
+            padding: 60px; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glass-card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.2); }
+        .glass-card h2 { font-size: 2.5em; margin-top: 0; color: var(--secondary); display: flex; align-items: center; gap: 15px; }
+        .glass-card p { font-size: 1.15em; line-height: 1.8; color: var(--text-muted); }
+
+        /* --- STATS SECTION --- */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
+            padding: 0 10% 100px;
+        }
+        .stat-box {
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+            border: 1px solid var(--glass-border); border-radius: 20px;
+            padding: 40px; text-align: center; border-top: 3px solid var(--primary);
+            transition: 0.4s;
+        }
+        .stat-box:hover { transform: translateY(-15px); background: rgba(255,255,255,0.08); }
+        .stat-box h3 {
+            font-size: 3.5em; margin: 0;
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            -webkit-background-clip: text; color: transparent;
+        }
+        .stat-box p { font-size: 1.2em; color: var(--text-muted); margin-top: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;}
+
+        /* --- AFFILIATED UNIVERSITIES --- */
+        .affiliated-section { padding: 50px 0; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); text-align: center; overflow: hidden; }
+        .affiliated-section h4 { color: var(--text-muted); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px; font-size: 1em; }
+        .marquee-container { width: 100%; white-space: nowrap; overflow: hidden; display: flex; }
+        .marquee-content { display: flex; gap: 80px; animation: scrollMarquee 20s linear infinite; padding-left: 80px;}
+        .uni-tag { font-size: 1.5em; font-weight: 800; color: rgba(255,255,255,0.4); display: flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .uni-tag:hover { color: white; transform: scale(1.1); }
+        @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+
+        .footer { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0;
+            width: 100%; 
+            background: rgba(11, 15, 25, 0.85); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08); 
+            padding: 15px 0; 
+            text-align: center; 
+            z-index: 1000; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 6px;
+        }
+        .footer-contact { font-size: 0.95em; color: #ffffff; }
+        .footer-contact a { color: #00cec9; text-decoration: none; font-weight: 600;}
+        .footer-contact a:hover { text-decoration: underline; }
+        .footer-copy { font-size: 0.85em; color: rgba(255,255,255,0.5); letter-spacing: 0.5px;}
+        
+        /* This ensures your main content doesn't get hidden behind the footer */
+        body { padding-bottom: 80px; }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+
+    <nav>
+        <div class="logo"><i class="fas fa-layer-group" style="color: var(--secondary);"></i> <span>AEW</span></div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="/login_page" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <h1 data-aos="fade-down" data-aos-duration="1000">Revolutionising the<br>Education System</h1>
+        <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">The Automated Exam Work (AEW) is a flagship project by the Dept. of Master of Computer Application (MCA), Bengaluru, Karnataka.</p>
+        
+        <div class="hero-buttons" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+            <a href="/login_page" class="btn-login" style="font-size: 1.2em; padding: 15px 40px;">Admin Access</a>
+            <a href="/student_login" class="btn-outline">Student Portal</a>
+            <a href="/faculty_login" class="btn-outline" style="border-color: #e84393;">Faculty Portal</a>
+        </div>
+    </section>
+
+    <section class="section-about" id="about">
+        <div class="glass-card" data-aos="fade-right" data-aos-duration="1000">
+            <h2><i class="fas fa-info-circle"></i> About AEW</h2>
+            <p>
+                <strong>Automated Exam Work (AEW)</strong> is a flagship project by the Dept. of Master of Computer Application (MCA) to make exam organizations easier for colleges. This system solves these problems by using smart algorithms. 
+            </p>
+            <p>
+                The admin only needs to upload the student list and available classrooms. The system arranges seating, making sure that nearby students do not have the same subject. It also quickly generates reports like seating plans, attendance sheets, and invigilation of duty lists. By using this application, colleges can conduct exams smoothly with fewer mistakes and less workload for staff.
+            </p>
+        </div>
+    </section>
+
+    <section class="stats-grid">
+        <div class="stat-box" data-aos="zoom-in" data-aos-duration="800">
+            <h3>30+</h3>
+            <p><i class="fas fa-user-graduate"></i> Students</p>
+        </div>
+        <div class="stat-box" style="border-top-color: var(--secondary);" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+            <h3>21+</h3>
+            <p><i class="fas fa-chalkboard-teacher"></i> Faculty</p>
+        </div>
+        <div class="stat-box" style="border-top-color: #e84393;" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400">
+            <h3>3+</h3>
+            <p><i class="fas fa-university"></i> Colleges</p>
+        </div>
+    </section>
+
+    <section class="affiliated-section" data-aos="fade-up" data-aos-duration="1000">
+        <h4>Affiliated Universities</h4>
+        <div class="marquee-container">
+            <div class="marquee-content">
+                <div class="uni-tag"><i class="fas fa-shield-alt"></i> CIMS</div>
+                <div class="uni-tag"><i class="fas fa-landmark"></i> CICMS </div>
+                <div class="uni-tag"><i class="fas fa-book-reader"></i> MCA Dept</div> 
+            </div>
+            <div class="marquee-content">
+                <div class="uni-tag"><i class="fas fa-shield-alt"></i>CIMS</div>
+                <div class="uni-tag"><i class="fas fa-landmark"></i> CICMS</div>
+                <div class="uni-tag"><i class="fas fa-book-reader"></i> MCA Dept</div> 
+            </div>
+        </div>
+    </section>
+   <section class="section-about" id="contact">
+        <div class="glass-card" data-aos="fade-right" data-aos-duration="1000">
+                <h2><i class="fas fa-info-circle"></i> Contact Details</h2>
+    <footer class="footer">
+        <div class="footer-contact">
+            <i class="fas fa-envelope" style="color: #6c5ce7;"></i> Admin Contact-1: <a href="mailto:ashithsanjayrao1@gmail.com">ashithsanjayrao1@gmail.com</a>
+        </div>
+        <div class="footer-contact">
+            <i class="fas fa-envelope" style="color: #6c5ce7;"></i> Admin Contact-2: <a href="mailto:officalinternet69@gmail.com">officalinternet69@gmail.com</a>
+        </div>
+        <div class="footer-copy">
+            &copy; 2026 Automated Exam Work (AEW). 
+        </div>
+    </footer>
+    </section>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: false,  
+            offset: 100, 
+        });
+    </script>
+</body>
+</html>

@@ -5,21 +5,47 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from collections import defaultdict
 
-# --- 1. SETUP & CONFIGURATION ---
-app = Flask(__name__)
-app.secret_key = 'supersecretkey'
+import shutil
+import tempfile
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///university_database.db'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# --- 1. SETUP & CONFIGURATION ---
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, 'templates'),
+    static_folder=os.path.join(BASE_DIR, 'static')
+)
+app.secret_key = os.getenv('SECRET_KEY', 'supersecretkey_aew_master_2026')
+
+# Vercel Serverless File System Handler:
+# Root directory in AWS Lambda/Vercel is read-only. Only /tmp is writable for SQLite.
+if os.getenv("VERCEL"):
+    tmp_dir = tempfile.gettempdir()
+    db_file = os.path.join(tmp_dir, "university_database.db")
+    orig_db = os.path.join(BASE_DIR, "instance", "university_database.db")
+    if os.path.exists(orig_db) and not os.path.exists(db_file):
+        try:
+            shutil.copy2(orig_db, db_file)
+        except Exception:
+            pass
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.abspath(db_file)}"
+else:
+    instance_dir = os.path.join(BASE_DIR, "instance")
+    os.makedirs(instance_dir, exist_ok=True)
+    local_db = os.path.join(instance_dir, "university_database.db")
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', f"sqlite:///{os.path.abspath(local_db)}")
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # --- EMAIL CONFIGURATION ---
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'officalinternet69@gmail.com'  
-app.config['MAIL_PASSWORD'] = 'imfsqsknyusddefa'    
-app.config['MAIL_DEFAULT_SENDER'] = 'officalinternet69@gmail.com' 
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True').lower() in ('true', '1')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'officalinternet69@gmail.com')  
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'imfsqsknyusddefa')    
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'officalinternet69@gmail.com') 
 mail = Mail(app)
 
 # --- 2. DATABASE MODELS ---
@@ -40,9 +66,18 @@ class Faculty(db.Model):
     password = db.Column(db.String(200), nullable=False)
 
 with app.app_context():
-    db.create_all()
+    try:
+        db.create_all()
+    except Exception:
+        pass
 
-rooms_db, allocations_db, duty_db, qp_stats = [], [], [], {}
+# Default exam halls for immediate scheduling on serverless
+rooms_db = [
+    {'room_no': 'LH-101', 'capacity': 30},
+    {'room_no': 'LH-102', 'capacity': 30},
+    {'room_no': 'LH-201', 'capacity': 25}
+]
+allocations_db, duty_db, qp_stats = [], [], {}
 
 # --- 3. ADMIN ROUTES ---
 @app.route('/')

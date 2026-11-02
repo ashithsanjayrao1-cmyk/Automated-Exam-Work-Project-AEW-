@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | AEW Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --bg-color: #0b0f19; --primary: #6c5ce7; --secondary: #00cec9; --danger: #ff7675; --glass-bg: rgba(255, 255, 255, 0.03); --glass-border: rgba(255, 255, 255, 0.08); --text-main: #ffffff; --text-muted: #a0aec0; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
+        
+        .bg-shapes { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; filter: blur(100px); }
+        .shape1 { position: absolute; border-radius: 50%; width: 500px; height: 500px; background: var(--primary); top: -10%; left: -10%; opacity: 0.3; animation: float 15s infinite alternate ease-in-out;}
+        .shape2 { position: absolute; border-radius: 50%; width: 400px; height: 400px; background: var(--secondary); bottom: -10%; right: -5%; animation-delay: -5s; opacity: 0.3; animation: float 15s infinite alternate ease-in-out;}
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.1); } }
+
+        .top-nav { width: 100%; padding: 20px 5%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); position: sticky; top: 0; z-index: 100; }
+        .nav-brand { font-size: 1.5em; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .nav-brand span { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; color: transparent; }
+        .btn-logout { background: rgba(255, 118, 117, 0.1); color: var(--danger); border: 1px solid rgba(255, 118, 117, 0.3); padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: 600; transition: 0.3s; }
+        .btn-logout:hover { background: var(--danger); color: white; box-shadow: 0 5px 15px rgba(255, 118, 117, 0.4); }
+
+        .header { text-align: center; margin: 40px 0 20px; animation: slideDown 0.8s ease; }
+        .header h1 { font-size: 2.5em; margin: 0; font-weight: 800; }
+        .header p { color: var(--text-muted); font-size: 1.1em; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .success-msg { padding: 15px 25px; border-radius: 12px; margin-bottom: 25px; font-size: 1.1em; text-align: center; animation: popIn 0.4s;}
+        .success-green { color: #00b894; background: rgba(0, 184, 148, 0.1); border: 1px solid rgba(0, 184, 148, 0.3); }
+        .error-red { color: #ff7675; background: rgba(255, 118, 117, 0.1); border: 1px solid rgba(255, 118, 117, 0.3); }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .dashboard-container { width: 90%; max-width: 1200px; margin-bottom: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        
+        .card { background: var(--glass-bg); backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); transition: transform 0.3s; display: flex; flex-direction: column; animation: slideUp 0.6s ease-out forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); box-shadow: 0 30px 50px rgba(0,0,0,0.4); }
+
+        .card h3 { margin-top: 0; font-size: 1.4em; display: flex; align-items: center; gap: 12px; color: var(--text-main); margin-bottom: 15px;}
+        .card h3 i { font-size: 1.2em; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; color: transparent; }
+        
+        /* THE NEW BOTTOM CENTER HIGHLIGHT METRICS */
+        .bottom-metric { margin-top: 15px; padding: 8px 24px; border-radius: 20px; font-weight: 700; align-self: center; font-size: 0.95em; box-shadow: 0 5px 15px rgba(0,0,0,0.1); letter-spacing: 0.5px;}
+
+        input[type="text"], input[type="number"], input[type="date"], input[type="time"] { width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 8px; color: white; margin-bottom: 10px; font-family: inherit; outline: none; transition: 0.3s; box-sizing: border-box;}
+        input:focus { border-color: var(--secondary); background: rgba(0,0,0,0.5); }
+        
+        button { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 1.05em; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; color: white; transition: 0.3s; margin-top: 15px; }
+        button:active { transform: scale(0.95); }
+        .btn-add { background: linear-gradient(135deg, #e84393, #fd79a8); }
+        .btn-generate { background: linear-gradient(135deg, #00b894, #55efc4); }
+        .btn-email { background: linear-gradient(135deg, #f39c12, #f1c40f); color: #000; }
+        
+        /* Renamed to btn-delete to apply to students, faculty, and rooms */
+        .btn-delete { background: rgba(255, 118, 117, 0.1); color: var(--danger); border: 1px solid rgba(255, 118, 117, 0.3); padding: 6px 12px; border-radius: 8px; width: auto; margin: 0; font-size: 0.9em; box-shadow: none; transition: 0.3s; }
+        .btn-delete:hover { background: rgba(255, 118, 117, 0.2); transform: scale(1.1) !important; color: #fff;}
+
+        .status-list { margin-top: 10px; padding-left: 0; list-style: none; font-size: 0.9em; max-height: 250px; overflow-y: auto; padding-right: 5px; flex-grow: 1; }
+        .status-list::-webkit-scrollbar { width: 6px; }
+        .status-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .status-list::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+        .status-list li { background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; }
+        .empty-state { color: rgba(255,255,255,0.4); text-align: center; padding: 20px 0; font-size: 0.9em; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes"><div class="shape1"></div><div class="shape2"></div></div>
+    <nav class="top-nav">
+        <div class="nav-brand"><i class="fas fa-layer-group"></i> <span>AEW Control</span></div>
+        <a href="/" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Secure Logout</a>
+    </nav>
+
+    <div class="header">
+        <h1>Admin Control Center</h1>
+        <p>Configure data, build schedules, and dispatch master hall tickets.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+            {% if category == 'error' %}
+                <div class="success-msg error-red"><i class="fas fa-exclamation-triangle"></i> {{ message }}</div>
+            {% else %}
+                <div class="success-msg success-green"><i class="fas fa-check-circle"></i> {{ message }}</div>
+            {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="dashboard-container">
+        
+        <div class="card" style="border-top: 3px solid var(--primary);">
+            <h3><i class="fas fa-users"></i> Students</h3>
+            <ul class="status-list">
+                {% for s in students %}
+                    <li style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="flex: 1; padding-right: 10px;">
+                            <div style="display:flex; justify-content: space-between; width:100%;">
+                                <strong style="color: white;">{{ s.name }} ({{ s.usn }})</strong>
+                                <span style="color:#00cec9; font-weight: 600;">{% if s.course %}{{ s.course }} S{{ s.semester }}{% else %}Pending{% endif %}</span>
+                            </div>
+                            <div style="color: #a0aec0; font-size: 0.85em; margin-top:8px;"><i class="fas fa-book" style="color: #e84393;"></i> {{ s.subjects if s.subjects else 'No Subjects Selected' }}</div>
+                        </div>
+                        <form action="/delete_student/{{ s.usn }}" method="POST" style="margin: 0;" onsubmit="return confirm('Are you sure you want to remove {{ s.name }}?');">
+                            <button type="submit" class="btn-delete" title="Delete Student"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </li>
+                {% else %}
+                    <div class="empty-state">No students registered yet.</div>
+                {% endfor %}
+            </ul>
+            <div class="bottom-metric" style="background: rgba(0, 206, 201, 0.1); color: #00cec9; border: 1px solid rgba(0, 206, 201, 0.3);">
+                {{ students|length }} Total Enrolled
+            </div>
+        </div>
+
+        <div class="card" style="border-top: 3px solid var(--secondary);">
+            <h3><i class="fas fa-chalkboard-teacher"></i> Faculty</h3>
+            <ul class="status-list">
+                {% for f in faculty %}
+                    <li style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong style="color: white;">Prof. {{ f.name }}</strong>
+                            <br>
+                            <span style="font-size: 0.9em; color: var(--text-muted);">{{ f.email }}</span>
+                        </div>
+                        <form action="/delete_faculty/{{ f.email }}" method="POST" style="margin: 0;" onsubmit="return confirm('Are you sure you want to remove Prof. {{ f.name }}?');">
+                            <button type="submit" class="btn-delete" title="Delete Faculty"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </li>
+                {% else %}
+                    <div class="empty-state">No faculty registered yet.</div>
+                {% endfor %}
+            </ul>
+            <div class="bottom-metric" style="background: rgba(108, 92, 231, 0.1); color: #6c5ce7; border: 1px solid rgba(108, 92, 231, 0.3);">
+                {{ faculty|length }} Active Staff
+            </div>
+        </div>
+
+        <div class="card" style="border-top: 3px solid #e84393;">
+            <h3><i class="fas fa-door-open"></i> Rooms</h3>
+            <form action="/add_room" method="POST" style="margin-bottom: 15px;">
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" name="room_no" placeholder="Room ID" required>
+                    <input type="number" name="capacity" placeholder="Capacity" required>
+                </div>
+                <button type="submit" class="btn-add"><i class="fas fa-plus"></i> Register Room</button>
+            </form>
+            <ul class="status-list">
+                {% for room in rooms %}
+                    <li style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <span style="color: white; font-weight: 600;">Room {{ room.room_no }}</span>
+                            <span style="color: #e84393; margin-left: 10px;">Cap: {{ room.capacity }}</span>
+                        </div>
+                        <form action="/delete_room/{{ room.room_no }}" method="POST" style="margin: 0;" onsubmit="return confirm('Are you sure you want to delete Room {{ room.room_no }}?');">
+                            <button type="submit" class="btn-delete" title="Delete Room"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </li>
+                {% else %}
+                    <div class="empty-state">No rooms added yet.</div>
+                {% endfor %}
+            </ul>
+            <div class="bottom-metric" style="background: rgba(232, 67, 147, 0.1); color: #e84393; border: 1px solid rgba(232, 67, 147, 0.3);">
+                {{ rooms|length }} Rooms Ready
+            </div>
+        </div>
+
+        <div class="card" style="border-top: 3px solid #00b894; grid-column: 1 / -1;">
+            <h3><i class="fas fa-calendar-alt"></i> Master Timetable Builder</h3>
+            <p style="color: var(--text-muted); margin-top: 0; margin-bottom: 15px;">Select subjects, assign their dates and times, and generate the master schedule.</p>
+            
+            <form action="/generate" method="POST" style="display: flex; flex-direction: column;">
+                <div style="max-height: 300px; overflow-y: auto; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border: 1px solid var(--glass-border);">
+                    {% if all_subjects %}
+                        {% for sub in all_subjects %}
+                            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap;">
+                                <label style="flex: 1; color: white; display: flex; align-items: center; font-size: 0.95em; min-width: 200px;">
+                                    <input type="checkbox" name="subjects" value="{{ sub }}" style="margin-right: 10px; transform: scale(1.2); accent-color: var(--secondary);"> {{ sub }}
+                                </label>
+                                <input type="date" name="date_{{ sub }}" style="width: 150px; margin: 0;">
+                                <input type="time" name="time_{{ sub }}" style="width: 130px; margin: 0;">
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-state">Waiting for students to register their subjects...</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn-generate"><i class="fas fa-magic"></i> Generate Master Schedule</button>
+            </form>
+        </div>
+
+        <div class="card" style="border-top: 3px solid #fdcb6e; grid-column: 1 / -1;">
+            <h3><i class="fas fa-paper-plane"></i> Final Dispatch</h3>
+            <p style="color: var(--text-muted); margin-top: 0;">Instantly aggregate all generated schedules and email them directly to students and faculty in a formatted HTML table.</p>
+            <form action="/send_emails" method="POST">
+                <button type="submit" class="btn-email"><i class="fas fa-envelope"></i> Transmit All Emails</button>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary: #6c5ce7; --secondary: #a29bfe; --success: #00b894; 
+    --warning: #fdcb6e; --danger: #d63031; --dark: #2d3436; 
+    --light: #dfe6e9; --glass: rgba(255, 255, 255, 0.85);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+    color: var(--dark); margin: 0; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+}
+
+.login-box, .container {
+    background: var(--glass); backdrop-filter: blur(10px);
+    border-radius: 20px; padding: 40px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    width: 400px; text-align: center; margin-top: 50px;
+    transition: transform 0.3s ease;
+}
+
+.login-box:hover, .container:hover { transform: translateY(-5px); }
+
+.dashboard-container {
+    width: 90%; max-width: 1200px; margin: 30px auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;
+}
+
+h1 { color: white; text-align: center; font-weight: 700; text-shadow: 0 2px 5px rgba(0,0,0,0.2); width: 100%; margin-bottom: 20px;}
+
+.card {
+    background: white; border-radius: 15px; padding: 25px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.3s ease;
+    border-left: 5px solid var(--primary);
+}
+
+.card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+.card h3 { margin-top: 0; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+
+input[type="text"], input[type="password"], input[type="file"], input[type="number"], input[type="date"], input[type="time"] {
+    width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #eee; border-radius: 8px; box-sizing: border-box; font-family: inherit;
+}
+input:focus { border-color: var(--primary); outline: none; }
+
+button {
+    width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+    display: flex; justify-content: center; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px;
+}
+button:hover { filter: brightness(1.1); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+.btn-upload { background-color: var(--primary); color: white; }
+.btn-add { background-color: var(--secondary); color: white; }
+.btn-generate { background-color: var(--success); color: white; }
+.btn-email { background-color: var(--warning); color: var(--dark); }
+.btn-login { background-color: var(--primary); color: white; }
+.btn-student { background-color: white; color: var(--primary); border: 2px solid var(--primary); }
+
+.table-container { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 1000px; margin-top: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+th { background-color: var(--primary); color: white; }

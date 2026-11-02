@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Faculty Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: #0b0f19; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        .bg-shapes { position: absolute; filter: blur(90px); z-index: -1; width: 100%; height: 100%; }
+        .shape1 { width: 400px; height: 400px; background: #6c5ce7; border-radius: 50%; position: absolute; top: 0; left: 0; }
+        .shape2 { width: 500px; height: 500px; background: #e84393; border-radius: 50%; position: absolute; bottom: 0; right: 0; }
+        .login-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px; width: 380px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        input { width: 100%; padding: 12px 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; color: white; margin-bottom: 15px; box-sizing: border-box; font-family: inherit;}
+        input:focus { outline: none; border-color: #6c5ce7; box-shadow: 0 0 15px rgba(108, 92, 231, 0.2); background: rgba(0,0,0,0.4); }
+        .btn-submit { width: 100%; padding: 15px; background: linear-gradient(135deg, #6c5ce7, #e84393); border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1.05em;}
+        .btn-submit:hover { transform: scale(0.95); box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3); }
+        .error { color: #ff7675; background: rgba(255,118,117,0.1); padding: 10px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9em;}
+    </style>
+</head>
+<body>
+    <div class="bg-shapes"><div class="shape1"></div><div class="shape2"></div></div>
+    <div class="login-card">
+        <h2 style="margin: 0 0 20px;">Faculty Registration</h2>
+        
+        {% if error %}<div class="error"><i class="fas fa-exclamation-circle"></i> {{ error }}</div>{% endif %}
+        
+        <form action="/faculty_register" method="POST">
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="email" name="email" placeholder="University Email" required>
+            <input type="password" name="password" placeholder="Create Password" required>
+            <button type="submit" class="btn-submit">Register Staff</button>
+        </form>
+        <a href="/faculty_login" style="margin-top: 20px; font-size: 0.9em; color: #a0aec0; display: block; text-decoration: none;">Already registered? <span style="color: #6c5ce7; font-weight: bold;">Login</span></a>
+    </div>
+</body>
+</html>

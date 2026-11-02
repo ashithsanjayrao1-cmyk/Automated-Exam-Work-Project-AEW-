@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Premium Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- RESET & BACKGROUND --- */
+        body, html {
+            margin: 0; padding: 0;
+            height: 100%; width: 100%;
+            font-family: 'Poppins', sans-serif;
+            background-color: #0b0f19; 
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- TACTILE CLICK "POP" EFFECTS --- */
+        button {
+            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s !important;
+        }
+        button:active {
+            transform: scale(0.92) !important; 
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3) !important; 
+        }
+        .input-group input:focus {
+            transform: scale(1.02); 
+        }
+
+        /* --- ANIMATED AURORA BACKGROUND --- */
+        .bg-shapes {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            filter: blur(90px);
+        }
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 12s infinite alternate ease-in-out;
+        }
+        .shape1 {
+            width: 400px; height: 400px;
+            background: #6c5ce7;
+            top: -10%; left: -10%;
+            animation-delay: 0s;
+        }
+        .shape2 {
+            width: 500px; height: 500px;
+            background: #00cec9;
+            bottom: -20%; right: -10%;
+            animation-delay: -3s;
+        }
+        .shape3 {
+            width: 300px; height: 300px;
+            background: #e84393;
+            top: 40%; left: 40%;
+            animation-delay: -6s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.2); }
+        }
+
+        /* --- GLASSMORPHISM CARD --- */
+        .login-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 50px 40px;
+            width: 380px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(40px);
+            text-align: center;
+        }
+
+        @keyframes slideUpFade {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- CARD CONTENT --- */
+        .login-card h2 {
+            color: #ffffff;
+            font-size: 2em;
+            margin-bottom: 10px;
+            margin-top: 0;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .login-card p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9em;
+            margin-bottom: 40px;
+        }
+
+        /* --- FLOATING LABEL INPUTS --- */
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 1em;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        .input-group label {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+
+        .input-group input:focus, 
+        .input-group input:valid {
+            border-color: #00cec9;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px rgba(0, 206, 201, 0.2);
+        }
+        .input-group input:focus ~ label, 
+        .input-group input:valid ~ label {
+            top: -10px;
+            left: 15px;
+            font-size: 0.8em;
+            color: #00cec9;
+            background: #0b0f19; 
+            padding: 0 5px;
+            border-radius: 4px;
+        }
+
+        /* --- GLOWING BUTTON --- */
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            box-shadow: 0 15px 25px rgba(0, 206, 201, 0.5);
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+    </div>
+
+    <div class="login-card">
+        <div style="font-size: 3em; color: #00cec9; margin-bottom: 10px;">
+            <i class="fas fa-fingerprint"></i>
+        </div>
+        <h2>Admin Portal</h2>
+        <p>Enter your credentials to access the system</p>
+
+        <form action="/login" method="POST">
+            <div class="input-group">
+                <input type="text" name="username" required autocomplete="off">
+                <label>Username</label>
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" required autocomplete="off">
+                <label>Password</label>
+            </div>
+            <button type="submit" class="btn-submit">
+                Secure Login <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <div style="display: flex; gap: 15px; margin-top: 25px;">
+            <a href="/" style="text-decoration: none; flex: 1;">
+                <button type="button" class="btn-submit" style="background: rgba(255,255,255,0.08); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); font-size: 0.9em; padding: 12px; margin-top: 0;">
+                    <i class="fas fa-home"></i> Back Home
+                </button>
+            </a>
+            <a href="/student_login" style="text-decoration: none; flex: 1;">
+                <button type="button" class="btn-submit" style="background: rgba(255,255,255,0.08); color: #00cec9; border: 1px solid rgba(255,255,255,0.1); font-size: 0.9em; padding: 12px; margin-top: 0;">
+                    <i class="fas fa-user-graduate"></i> Portal
+                </button>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

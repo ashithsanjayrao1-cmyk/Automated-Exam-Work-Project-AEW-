@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Login | AEW Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* (Assume the exact same CSS structure as your Admin Login page here for background, glowing orbs, etc. I am keeping it compact for you to copy easily) */
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: #0b0f19; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        .bg-shapes { position: absolute; filter: blur(90px); z-index: -1; width: 100%; height: 100%; }
+        .shape1 { width: 400px; height: 400px; background: #6c5ce7; border-radius: 50%; position: absolute; top: 0; left: 0; }
+        .shape2 { width: 500px; height: 500px; background: #00cec9; border-radius: 50%; position: absolute; bottom: 0; right: 0; }
+        .login-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 50px 40px; width: 380px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        input { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; margin-bottom: 20px; box-sizing: border-box; }
+        .btn-submit { width: 100%; padding: 15px; background: linear-gradient(135deg, #6c5ce7, #00cec9); border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-submit:hover { transform: scale(0.95); box-shadow: 0 10px 20px rgba(0,206,201,0.4); }
+        .error { color: #ff7675; background: rgba(255,118,117,0.1); padding: 10px; border-radius: 8px; margin-bottom: 20px; }
+        .register-link { margin-top: 20px; font-size: 0.9em; color: #a0aec0; display: block; text-decoration: none; }
+        .register-link span { color: #00cec9; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes"><div class="shape1"></div><div class="shape2"></div></div>
+    
+    <div class="login-card">
+        <i class="fas fa-user-graduate" style="font-size: 3em; color: #00cec9; margin-bottom: 10px;"></i>
+        <h2 style="margin:0 0 5px;">Student Portal</h2>
+        <p style="color: #a0aec0; margin-bottom: 30px;">Login to view your hall ticket</p>
+
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+
+        <form action="/student_login" method="POST">
+            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit" class="btn-submit">Sign In <i class="fas fa-arrow-right"></i></button>
+        </form>
+
+        <a href="/student_register" class="register-link">Don't have an account? <span>Create Account</span></a>
+    </div>
+</body>
+</html>

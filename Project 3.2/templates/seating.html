@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Schedule Result | AEW Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --bg-color: #0b0f19; --primary: #6c5ce7; --secondary: #00cec9; --glass-bg: rgba(255, 255, 255, 0.03); --glass-border: rgba(255, 255, 255, 0.08); --text-main: #ffffff; --text-muted: #a0aec0; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        
+        .bg-shapes { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; filter: blur(100px); }
+        .shape1 { position: absolute; border-radius: 50%; width: 400px; height: 400px; background: var(--primary); top: 20%; left: -10%; opacity: 0.3;}
+        .shape2 { position: absolute; border-radius: 50%; width: 500px; height: 500px; background: var(--secondary); bottom: -10%; right: -5%; opacity: 0.3;}
+        
+        .top-nav { width: 100%; padding: 20px 5%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); position: sticky; top: 0; z-index: 100; }
+        .nav-brand { font-size: 1.5em; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .nav-brand span { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; color: transparent; }
+        .btn-back { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border: 1px solid var(--glass-border); padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: 0.3s;}
+        .btn-back:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: scale(0.95); }
+        
+        .header { text-align: center; margin: 40px 0 30px; }
+        .header h1 { font-size: 2.2em; margin: 0; font-weight: 800; color: white; }
+        
+        .dashboard-container { width: 90%; max-width: 1200px; margin-bottom: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .card { background: var(--glass-bg); backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .card h3 { margin-top: 0; font-size: 1.3em; display: flex; align-items: center; gap: 12px; color: var(--text-main); border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; }
+        
+        .list-items { padding: 0; list-style: none; margin: 0; color: var(--text-muted); font-size: 0.95em; max-height: 250px; overflow-y: auto; padding-right: 5px;}
+        .list-items::-webkit-scrollbar { width: 6px; }
+        .list-items::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .list-items::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+        .list-items li { background: rgba(0,0,0,0.2); padding: 12px 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; }
+
+        .table-container { width: 90%; max-width: 1200px; margin-bottom: 50px; background: var(--glass-bg); backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); overflow-x: auto; }
+        .table-container h3 { margin-top: 0; color: white; font-size: 1.4em; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        
+        /* UNIFIED PREMIUM TABLE CSS */
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { padding: 15px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-size: 0.85em; border-bottom: 2px solid var(--glass-border); background: rgba(0,0,0,0.3); }
+        td { padding: 15px; border-bottom: 1px solid var(--glass-border); color: var(--text-main); font-size: 0.95em; }
+        tr:hover { background: rgba(255, 255, 255, 0.05); }
+
+        .premium-table { border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.1); margin-top: 10px;}
+        .premium-table th { background: rgba(255,255,255,0.05); }
+        .premium-table td { border-bottom: 1px solid rgba(255,255,255,0.02); }
+
+        .btn-primary-large { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 15px 40px; border-radius: 30px; font-size: 1.1em; font-weight: 600; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; margin-bottom: 50px; transition: 0.3s;}
+        .btn-primary-large:hover { transform: scale(0.95); box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes"><div class="shape1"></div><div class="shape2"></div></div>
+    <nav class="top-nav">
+        <div class="nav-brand"><i class="fas fa-layer-group"></i> <span>AEW Control</span></div>
+        <a href="/dashboard" class="btn-back"><i class="fas fa-arrow-left"></i> Dashboard</a>
+    </nav>
+    <div class="header">
+        <h1><i class="fas fa-calendar-check" style="color: var(--secondary);"></i> Master Schedule Generated</h1>
+        <p>Algorithm execution complete. Review the full timetable below.</p>
+    </div>
+    
+    <div class="dashboard-container">
+        
+        <div class="card" style="border-top: 3px solid var(--primary);">
+            <h3><i class="fas fa-file-alt" style="color: var(--primary);"></i> Question Paper Requirements</h3>
+            <table class="premium-table">
+                <thead>
+                    <tr>
+                        <th>Room No.</th>
+                        <th>Subject Name</th>
+                        <th style="text-align: center;">Copies Required</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room, counts in qp_stats.items() %}
+                        {% for subj, count in counts.items() %}
+                        <tr>
+                            <td style="color: var(--secondary); font-weight: bold; font-size: 1.1em;">{{ room }}</td>
+                            <td style="color: var(--text-main);">{{ subj }}</td>
+                            <td style="color: #00cec9; font-weight: bold; font-size: 1.2em; text-align: center;">{{ count }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card" style="border-top: 3px solid #e84393;">
+            <h3><i class="fas fa-user-shield" style="color: #e84393;"></i> Faculty Invigilation Duty</h3>
+            <ul class="list-items">
+                {% for duty in duties %}
+                    <li style="flex-direction: column; align-items: flex-start;">
+                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                            <span style="color: #a0aec0;">Room <strong style="color: white; font-size: 1.1em;">{{ duty.Room }}</strong></span>
+                            <span style="color: var(--text-main); font-weight: bold;"><i class="fas fa-chalkboard-teacher" style="color: #e84393;"></i> Prof. {{ duty.Faculty }}</span>
+                        </div>
+                        <div style="color: var(--primary); font-size: 0.85em; margin-top: 8px; font-weight: 600;">
+                            {{ duty.Date }} at {{ duty.Time }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <h3><i class="fas fa-chair" style="color: var(--secondary);"></i> Master Allocation Matrix</h3>
+        <table>
+            <thead><tr><th>Date</th><th>Time</th><th>Room</th><th>Seat</th><th>USN</th><th>Student Name</th><th>Subject</th></tr></thead>
+            <tbody>
+                {% for seat in allocations %}
+                <tr>
+                    <td style="color: var(--text-muted);">{{ seat['Date'] }}</td>
+                    <td style="color: var(--text-muted);">{{ seat['Time'] }}</td>
+                    <td style="color: var(--secondary); font-weight: 600;">{{ seat['Room'] }}</td>
+                    <td style="color: var(--primary); font-weight: 600;">{{ seat['Seat'] }}</td>
+                    <td style="letter-spacing: 1px;">{{ seat['USN'] }}</td>
+                    <td style="font-weight: 600; {% if seat['Name'] == '--- EMPTY SEAT (SPACING) ---' %}color: #ff7675;{% endif %}">{{ seat['Name'] }}</td>
+                    <td><span style="background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 6px; font-size: 0.85em;">{{ seat['Subject'] }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="/dashboard" class="btn-primary-large"><i class="fas fa-check"></i> Confirm & Return to Dashboard</a>
+</body>
+</html>
